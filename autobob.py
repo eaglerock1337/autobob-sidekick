@@ -137,17 +137,46 @@ class AutoBob:
         elif role == "-DRIVER-":
             self._handle_seat_choices(disabled=True)
 
-    def _gen_accident_info(self):
+    def _gen_accident_info(self, values):
         """
         Generates the accident info text, updates the window, and copies
         the resulting data to the clipboard.
         """
-        # pyperclip.copy()
-        pass
+        if values["-ACC-DESC-"] == "":
+            dialog = "Error: Accident description is empty!"
+            self.window.Element("-AINFO-DIALOG-").Update(value=dialog)
+            return
+
+        accident = values["-ACC-DESC-"]
+        if not accident.endswith("."):
+            accident += "."
+
+        for belt in BELT.keys():
+            if values[belt]:
+                seatbelt = BELT[belt].lower()
+                break
+
+        if values["-DRIVER-"]:
+            role = ROLE["-DRIVER-"].lower()
+        else:
+            role = ROLE["-PASSENGER-"].lower()
+            for seat in SEAT.keys():
+                if values[seat]:
+                    role = f"{SEAT[seat].lower()} {role}"
+                    break
+
+        statement = (
+            f"wherein the claimant was the {seatbelt} {role}"
+            + f" of a vehicle that was {accident}"
+        )
+
+        dialog = f"Accident Info text generated and copied to clipboard:\n{statement}"
+        self.window.Element("-AINFO-DIALOG-").Update(value=dialog)
+        pyperclip.copy(statement)
 
     def _reset_accident_info(self):
         """
-        Reset all fields under the accident info section back to 
+        Reset all fields under the accident info section back to defaults.
         """
         self.window.Element("-NOBELT-").Update(value=True)
         self.window.Element("-DRIVER-").Update(value=True)
@@ -177,7 +206,7 @@ class AutoBob:
             elif event == "-AINFO-RESET-":
                 self._reset_accident_info()
             elif event == "-AINFO-GEN-":
-                self._gen_accident_info()
+                self._gen_accident_info(values)
 
     def close(self):
         """
