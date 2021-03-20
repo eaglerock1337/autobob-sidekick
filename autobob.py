@@ -372,29 +372,23 @@ class AutoBob:
 
         return True
 
-    def _are_valid_dates(self, datestring):
-        """
-        Check if the list of strings is all valid dates and return a boolean of the result.
-        """
-        for date in datestring:
-            if not self._is_valid_date(date):
-                return False
-
-        return True
-
     def _gen_clinical_summary(self, values):
         """
         Generates the clinical summary text, updates the window, and copies
         the resulting data to the clipboard. Performs error-checking to ensure
         all fields are filled out as expected.
         """
-        if not values["-CSUM-FREQ-"].isdigit() or not values["-CSUM-DUR-"].isdigit():
+        frequency = values["-CSUM-FREQ-"]
+        duration = values["-CSUM-DUR-"]
+        from_date = values["-CSUM-FDATE-"]
+        to_date = values["-CSUM-TDATE-"]
+
+        if not frequency.isdigit() or not duration.isdigit():
             dialog = "Error: invalid treatment code frequency or duration!"
             self.window.Element("-CSUM-DIALOG-").Update(value=dialog)
             return
 
-        dates = [values["-CSUM-FDATE-"], values["-CSUM-TDATE-"]]
-        if not self._are_valid_dates(dates):
+        if not self._is_valid_date(from_date) or not self._is_valid_date(to_date):
             dialog = "Error: invalid treatment code from or to date!"
             self.window.Element("-CSUM-DIALOG-").Update(value=dialog)
             return
@@ -403,6 +397,17 @@ class AutoBob:
         for code in TREATMENT_CODE_PRINT_LAYOUT:
             if values[f"-{code}-"]:
                 checked_treatement_codes.append(code)
+
+        if len(checked_treatement_codes) == 0:
+            dialog = "Error: no treatment codes were selected!"
+            self.window.Element("-CSUM-DIALOG-").Update(value=dialog)
+            return
+
+        statement = (
+            f"The provider is requesting {treatment_code_text} at a "
+            + f"frequency of {frequency} visits per week for {duration} "
+            + f"weeks for the period of {from_date} through {to_date}."
+        )
 
         checked_auxillary_codes = []
         for code in AUXILLARY_CODE_PRINT_LAYOUT:
