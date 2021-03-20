@@ -27,7 +27,7 @@ SEAT = {
 
 
 ACCIDENT_INFO_LAYOUT = [
-    [sg.Text("Accident Information", font=("Helvetica", 18))],
+    [sg.Text("Accident Information", font=("Helvetica", 18, "bold"))],
     [
         sg.Text("Seat Belt", size=(24, 1)),
         sg.Text("Role", size=(23, 1)),
@@ -64,22 +64,126 @@ ACCIDENT_INFO_LAYOUT = [
     ],
     [
         sg.Text("Accident description:"),
-        sg.InputText(key="-ACC-DESC-", size=(60, 1)),
+        sg.InputText(key="-ACC-DESC-", size=(64, 1)),
         sg.Button("Generate", key="-AINFO-GEN-"),
         sg.Button("Reset", key="-AINFO-RESET-"),
     ],
-    [sg.Text("", key="-AINFO-DIALOG-", size=(80, 3))],
+    [sg.Text("", size=(40, 1)), sg.Text("", key="-AINFO-DIALOG-", size=(60, 1))],
 ]
 
 
-# Dicts for clinical summary layout
-CLINICAL_SUMMARY_LAYOUT = [[sg.Text("", size=(80, 12))]]
+# Lists and dicts for treatmeant codes
+TREATMENT_CODE_DISPLAY_LAYOUT = [
+    ["98940", "97016", "97110"],
+    ["98941", "97018", "97112"],
+    ["98942", "97022", "97113"],
+    ["98943", "97026", "97116"],
+    ["97010", "97032", "97124"],
+    ["97012", "97033", "97140"],
+    ["97014", "97035", "97530"],
+    ["G0283", "97039", "99072"],
+]
+# fmt: off
+TREATMENT_CODE_PRINT_LAYOUT = [
+    "98940", "98941", "98942", "98943", "97010", "97012", "97014", "G0283",
+    "97016", "97018", "97022", "97026", "97032", "97033", "97035", "97039",
+    "97110", "97112", "97113", "97116", "97124", "97140", "97530", "99072",
+]
+# fmt: on
+TREATMENT_CODES = {
+    "98940": "CMT Spine 1-2 regions",
+    "98941": "CMT Spine 3-4 regions",
+    "98942": "CMT Spine 5 regions",
+    "98943": "CMT Extraspinal",
+    "97010": "Hot/Cold Packs",
+    "97012": "Mechanical Traction",
+    "97014": "Electrical Stimulation",
+    "G0283": "Electrical Stimulation",
+    "97016": "Diathermy",
+    "97018": "Paraffin Bath",
+    "97022": "Whirlpool Therapy",
+    "97026": "Infrared",
+    "97032": "Attended Electrical Stimulation",
+    "97033": "Iontophoresis",
+    "97035": "Ultrasound",
+    "97039": "Unlisted Procedure",
+    "97110": "Therapeutic Exercise",
+    "97112": "Neuromuscular Re-education",
+    "97113": "Aquatic Exercise",
+    "97116": "Gait Training",
+    "97124": "Massage Therapy",
+    "97140": "Manual Therapy",
+    "97530": "Therapeutic Activities",
+    "99072": "Additional Supplies/Staff Time",
+}
+
+
+# List and dicts for auxillary codes
+AUXILLARY_CODE_DISPLAY_LAYOUT = [
+    ["95999", "72146"],
+    ["97535", "72148"],
+    ["97750", "72195"],
+    ["70336", "73221"],
+    ["72141", "73723"],
+]
+# fmt: off
+AUXILLARY_CODE_PRINT_LAYOUT = [
+    "95999", "97535", "97750", "70336", "72141",
+    "72146", "72148", "72195", "73221", "73723",
+]
+# fmt: on
+AUXILLARY_CODES = {
+    "95999": "PF-NCS testing",
+    "97535": "Self Care/Home Management Training",
+    "97750": "Physical Performance Test",
+    "70336": "MRI TMJ without contrast",
+    "72141": "MRI cervical spine without contrast",
+    "72146": "MRI thoracic spine without contrast",
+    "72148": "MRI lumbar spine without contrast",
+    "72195": "MRI pelvis without contrast",
+    "73221": "MRI upper extremity joint without contrast",
+    "73723": "MRI lower extremity joint without contrast",
+}
+
+
+CLINICAL_SUMMARY_LAYOUT = [
+    [sg.Text("Clinical Summary", font=("Helvetica", 18, "bold"))],
+    [sg.Text("Treatment Codes", font=("Helvetica", 14, "bold"))],
+    [sg.Checkbox("Cow goes moo", size=(40, 12), default=False)],
+    [sg.Checkbox("Cow goes moo", size=(40, 12), default=False)],
+    [sg.Checkbox("Cow goes moo", size=(40, 12), default=False)],
+    [sg.Checkbox("Cow goes moo", size=(40, 12), default=False)],
+    [sg.Checkbox("Cow goes moo", size=(40, 12), default=False)],
+    [
+        sg.Checkbox(
+            "97032", size=(5, 1), default=False, font=("Helvetica", 14, "bold")
+        ),
+        sg.Text(
+            "Attended Electrical Stimulation", size=(25, 1), font=("Helvetica", 12)
+        ),
+        sg.Checkbox(
+            "97032", size=(5, 1), default=False, font=("Helvetica", 14, "bold")
+        ),
+        sg.Text("Attended Stimulation", size=(25, 1), font=("Helvetica", 12)),
+        sg.Checkbox(
+            "99072", size=(5, 1), default=False, font=("Helvetica", 14, "bold")
+        ),
+        sg.Text("Additional Supplies/Staff Time", size=(25, 1), font=("Helvetica", 12)),
+    ],
+    [sg.Text("Accessory Codes", font=("Helvetica", 14, "bold"))],
+    [sg.Text("", size=(80, 12))],
+]
 
 
 TEST_SPACE_LAYOUT = [
-    [sg.Text("Test Space", font=("Helvetica", 18))],
-    [sg.Multiline(key="test_space", size=(100, 5))],
-    [sg.Text("", size=(80, 1)), sg.Button("Clear Text"), sg.Button("Quit")],
+    [sg.Text("Clipboard Output and Test Space", font=("Helvetica", 18, "bold"))],
+    [sg.Text("", key="-OUTPUT-", size=(80, 5))],
+    [sg.Multiline(key="-TEST-SPACE-", size=(100, 5))],
+    [
+        sg.Text("", size=(80, 1)),
+        sg.Button("Clear Text", key="-CLR-TEST-"),
+        sg.Button("Quit", key="-QUIT-"),
+    ],
 ]
 
 
@@ -104,8 +208,92 @@ class AutoBob:
         Sets self.window as the PySimpleGUI object to control the window and
         to provide easy access of all events and values by member functions.
         """
-        layout = ACCIDENT_INFO_LAYOUT + CLINICAL_SUMMARY_LAYOUT + TEST_SPACE_LAYOUT
+        clinical_summary_layout = self._gen_clinical_summary_layout()
+        layout = ACCIDENT_INFO_LAYOUT + clinical_summary_layout + TEST_SPACE_LAYOUT
         self.window = sg.Window("AutoBob SideKick", layout, font=("Helvetica", 14))
+
+    def _gen_clinical_summary_layout(self):
+        """
+        Generate the layout for the clinical summary section of the window.
+        The layout is generated by parsing the list of treatment codes and
+        auxillary codes to generate the list of lists necessary to render the
+        screen, adding in the section headers and additional fields and buttons.
+        The generated layout is then returned to the calling function.
+        """
+        layout = [
+            [sg.Text("Clinical Summary", font=("Helvetica", 18, "bold"))],
+            [sg.Text("Treatment Codes", font=("Helvetica", 14, "bold"))],
+        ]
+
+        for code_row in TREATMENT_CODE_DISPLAY_LAYOUT:
+            row = []
+            for code in code_row:
+                row.append(
+                    sg.Checkbox(
+                        code,
+                        size=(6, 1),
+                        key=f"-{code}-",
+                        font=("Helvetica", 14, "bold"),
+                    )
+                )
+                row.append(
+                    sg.Text(TREATMENT_CODES[code], size=(25, 1), font=("Helvetica", 12))
+                )
+            layout.append(row)
+
+        layout += [
+            [
+                sg.Text("Frequency", size=(9, 1)),
+                sg.InputText(key="-CSUM-FREQ-", size=(4, 1)),
+                sg.Text("", size=(1, 1)),
+                sg.Text("Duration", size=(8, 1)),
+                sg.InputText(key="-CSUM-DUR-", size=(4, 1)),
+                sg.Text("", size=(1, 1)),
+                sg.Text("From Date", size=(9, 1)),
+                sg.InputText(key="-CSUM-FDATE-", size=(10, 1)),
+                sg.CalendarButton(
+                    "Calendar",
+                    close_when_date_chosen=True,
+                    target="-CSUM-FDATE-",
+                    no_titlebar=False,
+                    format='%m/%d/%Y'
+                ),
+                sg.Text("", size=(1, 1)),
+                sg.Text("To Date", size=(7, 1)),
+                sg.InputText(key="-CSUM-TDATE-", size=(10, 1)),
+                sg.CalendarButton(
+                    "Calendar",
+                    close_when_date_chosen=True,
+                    target="-CSUM-TDATE-",
+                    no_titlebar=False,
+                    format='%m/%d/%Y'
+                ),
+            ],
+            # [sg.Text("", size=(1, 1))],
+            [sg.Text("Accessory Codes", font=("Helvetica", 14, "bold"))],
+        ]
+
+        for code_row in AUXILLARY_CODE_DISPLAY_LAYOUT:
+            row = []
+            for code in code_row:
+                row.append(
+                    sg.Checkbox(
+                        code,
+                        size=(6, 1),
+                        key=f"-{code}-",
+                        font=("Helvetica", 14, "bold"),
+                    )
+                )
+                row.append(
+                    sg.Text(AUXILLARY_CODES[code], size=(35, 1), font=("Helvetica", 12))
+                )
+                row.append(sg.InputText(key=f"-{code}-UNITS-", size=(2, 1)))
+                row.append(sg.Text("", size=(5, 1)))
+            layout.append(row)
+
+        layout += [[sg.Text("", key="-CSUM-DIALOG-", size=(80, 5))]]
+
+        return layout
 
     def _clear_dialogs(self):
         """
@@ -147,14 +335,17 @@ class AutoBob:
             self.window.Element("-AINFO-DIALOG-").Update(value=dialog)
             return
 
+        self._clear_dialogs()
         accident = values["-ACC-DESC-"]
         if not accident.endswith("."):
             accident += "."
 
-        for belt in BELT.keys():
-            if values[belt]:
-                seatbelt = BELT[belt].lower()
-                break
+        if values["-BELTED-"]:
+            seatbelt = f"{BELT['-BELTED-'].lower()} "
+        elif values["-UNBELT-"]:
+            seatbelt = f"{BELT['-UNBELT-'].lower()} "
+        else:
+            seatbelt = ""
 
         if values["-DRIVER-"]:
             role = ROLE["-DRIVER-"].lower()
@@ -166,12 +357,13 @@ class AutoBob:
                     break
 
         statement = (
-            f"wherein the claimant was the {seatbelt} {role}"
+            f"wherein the claimant was the {seatbelt}{role}"
             + f" of a vehicle that was {accident}"
         )
 
-        dialog = f"Accident Info text generated and copied to clipboard:\n{statement}"
+        dialog = "Accident Info text generated and copied to clipboard below."
         self.window.Element("-AINFO-DIALOG-").Update(value=dialog)
+        self.window.Element("-OUTPUT-").Update(value=statement)
         pyperclip.copy(statement)
 
     def _reset_accident_info(self):
@@ -194,10 +386,8 @@ class AutoBob:
         while True:
             event, values = self.window.read()
 
-            if event == "Quit" or event == sg.WIN_CLOSED:
+            if event == "-QUIT-" or event == sg.WIN_CLOSED:
                 break
-
-            self._clear_dialogs()
 
             if event == "-DRIVER-" or event == "-PASSENGER-":
                 self._select_role(event)
@@ -207,6 +397,8 @@ class AutoBob:
                 self._reset_accident_info()
             elif event == "-AINFO-GEN-":
                 self._gen_accident_info(values)
+            elif event == "-CLR-TEST-":
+                self.window.Element("-TEST-SPACE-").Update(value="")
 
     def close(self):
         """

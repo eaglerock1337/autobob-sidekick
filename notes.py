@@ -40,7 +40,7 @@ G0283 - Electrical Stimulation
 97039 - Unlisted Procedure
 97110 - Therapeutic Exercise
 97112 - Neuromuscular Re-education
-97113 - Aquatic Exercise
+97113 - f
 97116 - Gait Training
 97124 - Massage Therapy
 97140 - Manual Therapy
