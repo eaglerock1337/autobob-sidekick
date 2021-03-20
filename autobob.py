@@ -72,7 +72,7 @@ ACCIDENT_INFO_LAYOUT = [
 ]
 
 
-# Lists and dicts for treatmeant codes
+# Lists and dicts for treatment codes
 TREATMENT_CODE_DISPLAY_LAYOUT = [
     ["98940", "97016", "97110"],
     ["98941", "97018", "97112"],
@@ -144,35 +144,6 @@ AUXILLARY_CODES = {
     "73221": "MRI upper extremity joint without contrast",
     "73723": "MRI lower extremity joint without contrast",
 }
-
-
-CLINICAL_SUMMARY_LAYOUT = [
-    [sg.Text("Clinical Summary", font=("Helvetica", 18, "bold"))],
-    [sg.Text("Treatment Codes", font=("Helvetica", 14, "bold"))],
-    [sg.Checkbox("Cow goes moo", size=(40, 12), default=False)],
-    [sg.Checkbox("Cow goes moo", size=(40, 12), default=False)],
-    [sg.Checkbox("Cow goes moo", size=(40, 12), default=False)],
-    [sg.Checkbox("Cow goes moo", size=(40, 12), default=False)],
-    [sg.Checkbox("Cow goes moo", size=(40, 12), default=False)],
-    [
-        sg.Checkbox(
-            "97032", size=(5, 1), default=False, font=("Helvetica", 14, "bold")
-        ),
-        sg.Text(
-            "Attended Electrical Stimulation", size=(25, 1), font=("Helvetica", 12)
-        ),
-        sg.Checkbox(
-            "97032", size=(5, 1), default=False, font=("Helvetica", 14, "bold")
-        ),
-        sg.Text("Attended Stimulation", size=(25, 1), font=("Helvetica", 12)),
-        sg.Checkbox(
-            "99072", size=(5, 1), default=False, font=("Helvetica", 14, "bold")
-        ),
-        sg.Text("Additional Supplies/Staff Time", size=(25, 1), font=("Helvetica", 12)),
-    ],
-    [sg.Text("Accessory Codes", font=("Helvetica", 14, "bold"))],
-    [sg.Text("", size=(80, 12))],
-]
 
 
 TEST_SPACE_LAYOUT = [
@@ -256,7 +227,7 @@ class AutoBob:
                     close_when_date_chosen=True,
                     target="-CSUM-FDATE-",
                     no_titlebar=False,
-                    format='%m/%d/%Y'
+                    format="%m/%d/%Y",
                 ),
                 sg.Text("", size=(1, 1)),
                 sg.Text("To Date", size=(7, 1)),
@@ -266,10 +237,10 @@ class AutoBob:
                     close_when_date_chosen=True,
                     target="-CSUM-TDATE-",
                     no_titlebar=False,
-                    format='%m/%d/%Y'
+                    format="%m/%d/%Y",
                 ),
             ],
-            # [sg.Text("", size=(1, 1))],
+            [sg.Text("")],
             [sg.Text("Accessory Codes", font=("Helvetica", 14, "bold"))],
         ]
 
@@ -291,7 +262,15 @@ class AutoBob:
                 row.append(sg.Text("", size=(5, 1)))
             layout.append(row)
 
-        layout += [[sg.Text("", key="-CSUM-DIALOG-", size=(80, 5))]]
+        layout += [
+            [
+                sg.Text("Body parts to treat:"),
+                sg.InputText(key="-CSUM-BPARTS-", size=(64, 1)),
+                sg.Button("Generate", key="-CSUM-GEN-"),
+                sg.Button("Reset", key="-CSUM-RESET-"),
+            ],
+            [sg.Text("", size=(40, 1)), sg.Text("", key="-CSUM-DIALOG-", size=(60, 1))],
+        ]
 
         return layout
 
@@ -300,6 +279,8 @@ class AutoBob:
         Clears all dialog text windows under all sections of the window.
         """
         self.window.Element("-AINFO-DIALOG-").Update(value="")
+        self.window.Element("-CSUM-DIALOG-").Update(value="")
+        self.window.Element("-OUTPUT-").Update(value="")
 
     def _handle_seat_choices(self, disabled=False):
         """
@@ -331,7 +312,7 @@ class AutoBob:
         the resulting data to the clipboard.
         """
         if values["-ACC-DESC-"] == "":
-            dialog = "Error: Accident description is empty!"
+            dialog = "Error: accident description is empty!"
             self.window.Element("-AINFO-DIALOG-").Update(value=dialog)
             return
 
@@ -375,13 +356,41 @@ class AutoBob:
         self.window.Element("-ACC-DESC-").Update(value="")
         self._handle_seat_choices(disabled=True)
 
-        dialog = "Accident Info section reset to defaults."
+        dialog = "Accident info section reset to defaults."
         self.window.Element("-AINFO-DIALOG-").Update(value=dialog)
+
+    def _gen_clinical_summary(self, values):
+        """
+        Generates the clinical summary text, updates the window, and copies
+        the resulting data to the clipboard. Performs error-checking to ensure
+        all fields are filled out as expected.
+        """
+        pass
+
+    def _reset_clinical_summary(self):
+        """
+        Reset all fields under the clinical summary section back to defaults.
+        """
+        for code in TREATMENT_CODE_PRINT_LAYOUT:
+            self.window.Element(f"-{code}-").Update(value=False)
+
+        self.window.Element("-CSUM-FREQ-").Update(value="")
+        self.window.Element("-CSUM-DUR-").Update(value="")
+        self.window.Element("-CSUM-FDATE-").Update(value="")
+        self.window.Element("-CSUM-TDATE-").Update(value="")
+
+        for code in AUXILLARY_CODE_PRINT_LAYOUT:
+            self.window.Element(f"-{code}-").Update(value=False)
+            self.window.Element(f"-{code}-UNITS-").Update(value="")
+
+        dialog = "Clinical summary section reset to defaults."
+        self.window.Element("-CSUM-DIALOG-").Update(value=dialog)
 
     def main_loop(self):
         """
         Main routine for AutoBob SideKick.
-        Responds to window events and routes
+        Responds to window events and routes all events to the appropriate
+        member functions of the AutoBob class.
         """
         while True:
             event, values = self.window.read()
@@ -397,6 +406,10 @@ class AutoBob:
                 self._reset_accident_info()
             elif event == "-AINFO-GEN-":
                 self._gen_accident_info(values)
+            elif event == "-CSUM-RESET-":
+                self._reset_clinical_summary()
+            elif event == "-CSUM-GEN-":
+                self._gen_clinical_summary(values)
             elif event == "-CLR-TEST-":
                 self.window.Element("-TEST-SPACE-").Update(value="")
 
