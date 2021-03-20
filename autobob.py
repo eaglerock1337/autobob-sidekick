@@ -1,3 +1,4 @@
+import datetime
 import pyperclip
 import PySimpleGUI as sg
 
@@ -359,13 +360,57 @@ class AutoBob:
         dialog = "Accident info section reset to defaults."
         self.window.Element("-AINFO-DIALOG-").Update(value=dialog)
 
+    def _is_valid_date(self, datestring):
+        """
+        Check if the passed string is a valid date and return a boolean of the result.
+        """
+        try:
+            month, day, year = datestring.split("/")
+            datetime.datetime(int(year), int(month), int(day))
+        except ValueError:
+            return False
+
+        return True
+
+    def _are_valid_dates(self, datestring):
+        """
+        Check if the list of strings is all valid dates and return a boolean of the result.
+        """
+        for date in datestring:
+            if not self._is_valid_date(date):
+                return False
+
+        return True
+
     def _gen_clinical_summary(self, values):
         """
         Generates the clinical summary text, updates the window, and copies
         the resulting data to the clipboard. Performs error-checking to ensure
         all fields are filled out as expected.
         """
-        pass
+        if not values["-CSUM-FREQ-"].isdigit() or not values["-CSUM-DUR-"].isdigit():
+            dialog = "Error: invalid treatment code frequency or duration!"
+            self.window.Element("-CSUM-DIALOG-").Update(value=dialog)
+            return
+
+        dates = [values["-CSUM-FDATE-"], values["-CSUM-TDATE-"]]
+        if not self._are_valid_dates(dates):
+            dialog = "Error: invalid treatment code from or to date!"
+            self.window.Element("-CSUM-DIALOG-").Update(value=dialog)
+            return
+
+        checked_treatement_codes = []
+        for code in TREATMENT_CODE_PRINT_LAYOUT:
+            if values[f"-{code}-"]:
+                checked_treatement_codes.append(code)
+
+        checked_auxillary_codes = []
+        for code in AUXILLARY_CODE_PRINT_LAYOUT:
+            if values[f"-{code}-"]:
+                checked_auxillary_codes.append(code)
+
+        dialog = "Clinical summary text generated and copied to clipboard below."
+        self.window.Element("-CSUM-DIALOG-").Update(value=dialog)
 
     def _reset_clinical_summary(self):
         """
