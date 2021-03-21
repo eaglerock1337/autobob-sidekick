@@ -1,6 +1,6 @@
-from sidekick import autobob
+from sidekick.autobob import AutoBob
 
 if __name__ == "__main__":
-    autobob = autobob.AutoBob()
+    autobob = AutoBob()
     autobob.main_loop()
     autobob.close()
