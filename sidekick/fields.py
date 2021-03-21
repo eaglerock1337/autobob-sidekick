@@ -18,11 +18,17 @@ SEAT = {
 }
 
 
-# List and dict for treatment type layout
-TREATMENT_TYPE_LAYOUT = ["PT", "CHIRO", "ACU"]
+# Lists and dicts for treatment type layout
+TREATMENT_TYPE_LAYOUT = ["PT", "CHI", "ACU"]
 
 TREATMENT_TYPES = {
     "PT": "PT",
     "CHI": "Chiropractic",
     "ACU": "Acupuncture",
+}
+
+TREATMENT_TYPE_DENIALS = {
+    "-PT-DENY-": "PT",
+    "-CHI-DENY-": "CHI",
+    "-ACU-DENY-": "ACU",
 }
