@@ -11,8 +11,7 @@ from .codes import (
     AUXILLARY_CODES,
 )
 from .fields import BELT, ROLE, SEAT
-from .layouts import GUI_THEME
-from .layouts import ACCIDENT_INFO_LAYOUT, OUTPUT_LAYOUT
+from .layouts import GUI_THEME, ACCIDENT_INFO_LAYOUT, OUTPUT_LAYOUT
 
 
 # Set gui theme
