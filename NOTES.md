@@ -27,7 +27,7 @@ The form will have the following buttons:
 - 97012 - Mechanical Traction
 - 97014 - Electrical Stimulation
 - G0283 - Electrical Stimulation
-- 97016 -  Diathermy
+- 97016 - Diathermy
 - 97018 - Paraffin Bath
 - 97022 - Whirlpool Therapy
 - 97026 - Infrared
@@ -73,17 +73,34 @@ The text box will then generate the sentence “Additionally, the provider is re
 
 ### Request/Approval Details
 
-There are three checkboxes: {PT, chiropractic, acupuncture}
+Three rows: PT, Chiropractic, Acupuncture
 
-Text to generate: "It is noted that the claimant has been approved for {x} PT visits from {start date} to {end date} and {y} chiropractic visits"
+Each row:
 
-If date field is empty, substitute start/end date with "to present"
+- Text box for number of units (check for integer)
+- From date (check for date)
+- To date (check for date)
 
-Checkbox: "initial request" Change text to:
-"It is noted that this is the initial request for {PT XOR chiropractic - dropdown}." - substitutes above sentence
+For each row:
 
-Checkbox: "denied" Change text to:
-"It is noted that the claimant has not been approved for any {PT xor chiropractic - dropdown} units to date."
+- If number of units is nonzero, and both dates are blank:
+  - "It is noted that the claimant has been approved for `units` `type` visits to date.
 
-Last sentence:
+- If to date is filled but from date is blank:
+  - "It is noted that the claimant has been approved for `units` `type` visits through `to date`.
+
+- If both dates are filled out:
+  - "It is noted that the claimant has been approved for `units` `type` visits from `from date` to `to date`.
+
+- If more than one treatment is filled in above:
+  - "It is noted that the claimant has been approved for `x chiropractic visits <date stuff>` and `y acupuncture visits to date`.
+
+Contingency for initial requests and denied:
+
+- Each row gets a `not approved` checkbox
+- Would gray out the row
+- Changes wording to "It is noted that the claimant has been approved for `0` `type` visits to date.
+
+### Final Sentence
+
 "It is noted that the body parts being requested for treatment are {text field}"
