@@ -16,3 +16,13 @@ SEAT = {
     "-LRSEAT-": "Left Rear Seat",
     "-RRSEAT-": "Right Rear Seat",
 }
+
+
+# List and dict for treatment type layout
+TREATMENT_TYPE_LAYOUT = ["PT", "CHIRO", "ACU"]
+
+TREATMENT_TYPES = {
+    "PT": "PT",
+    "CHI": "Chiropractic",
+    "ACU": "Acupuncture",
+}

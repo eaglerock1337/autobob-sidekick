@@ -47,7 +47,7 @@ ACCIDENT_INFO_LAYOUT = [
     ],
     [
         sg.Text("Accident description:"),
-        sg.InputText(key="-ACC-DESC-", size=(64, 1)),
+        sg.InputText(key="-ACC-DESC-", size=(68, 1)),
         sg.Button("Generate", key="-AINFO-GEN-"),
         sg.Button("Reset", key="-AINFO-RESET-"),
     ],
@@ -59,10 +59,10 @@ TREATMENT_DATE_LAYOUT = [
     [
         sg.Text("Frequency", size=(9, 1)),
         sg.InputText(key="-CSUM-FREQ-", size=(4, 1)),
-        sg.Text("", size=(1, 1)),
+        sg.Text("", size=(2, 1)),
         sg.Text("Duration", size=(8, 1)),
         sg.InputText(key="-CSUM-DUR-", size=(4, 1)),
-        sg.Text("", size=(1, 1)),
+        sg.Text("", size=(2, 1)),
         sg.Text("From Date", size=(9, 1)),
         sg.InputText(key="-CSUM-FDATE-", size=(10, 1)),
         sg.CalendarButton(
@@ -72,7 +72,7 @@ TREATMENT_DATE_LAYOUT = [
             no_titlebar=False,
             format="%m/%d/%Y",
         ),
-        sg.Text("", size=(1, 1)),
+        sg.Text("", size=(2, 1)),
         sg.Text("To Date", size=(7, 1)),
         sg.InputText(key="-CSUM-TDATE-", size=(10, 1)),
         sg.CalendarButton(
@@ -89,7 +89,7 @@ TREATMENT_DATE_LAYOUT = [
 CLIENT_SUMMARY_FOOTER = [
     [
         sg.Text("Body parts to treat:"),
-        sg.InputText(key="-CSUM-BPARTS-", size=(64, 1)),
+        sg.InputText(key="-CSUM-BPARTS-", size=(68, 1)),
         sg.Button("Generate", key="-CSUM-GEN-"),
         sg.Button("Reset", key="-CSUM-RESET-"),
     ],
@@ -99,9 +99,9 @@ CLIENT_SUMMARY_FOOTER = [
 
 OUTPUT_LAYOUT = [
     # [sg.Text("Clipboard Output and Test Space", font=("Helvetica", 18, "bold"))],
-    [sg.Multiline(key="-OUTPUT-", size=(100, 5))],
+    [sg.Multiline(key="-OUTPUT-", size=(105, 5))],
     [
-        sg.Text("", size=(80, 1)),
+        sg.Text("", size=(85, 1)),
         sg.Button("Clear Text", key="-CLR-TEXT-"),
         sg.Button("Quit", key="-QUIT-"),
     ],

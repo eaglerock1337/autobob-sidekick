@@ -10,7 +10,7 @@ from .codes import (
     AUXILLARY_CODE_PRINT_LAYOUT,
     AUXILLARY_CODES,
 )
-from .fields import BELT, ROLE, SEAT
+from .fields import BELT, ROLE, SEAT, TREATMENT_TYPE_LAYOUT, TREATMENT_TYPES
 from .layouts import (
     GUI_THEME,
     ACCIDENT_INFO_LAYOUT,
@@ -47,13 +47,13 @@ class AutoBob:
         """
         clinical_summary_layout = self._gen_clinical_summary_layout()
         column_layout = ACCIDENT_INFO_LAYOUT + clinical_summary_layout + OUTPUT_LAYOUT
-        layout = [[sg.Column(column_layout, scrollable=True, expand_y=True)]]
+        layout = [[sg.Column(column_layout, scrollable=True, expand_x=True, expand_y=True)]]
         self.window = sg.Window(
             "AutoBob SideKick",
             layout,
             font=("Helvetica", 14),
             resizable=True,
-            size=(1100, 850),
+            size=(1130, 850),
         )
 
     def _gen_clinical_summary_layout(self):
@@ -94,7 +94,7 @@ class AutoBob:
             row = []
             for not_first, code in enumerate(code_row):
                 if not_first:
-                    row.append(sg.Text("", size=(5, 1)))
+                    row.append(sg.Text("", size=(8, 1)))
                 row.append(
                     sg.Checkbox(
                         code,
