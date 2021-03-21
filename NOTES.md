@@ -1,12 +1,14 @@
-# Accident Information
+# Notes
+
+## Accident Information
 
 Provided text - "The review is for patient {full name}, {DOB}, who was involved in an automobile on {date},"
 
 Needed: "wherein the claimant was the {restrained/unrestrained/neither - checkboxes} {driver/front seat passenger/LR/RR/rear seat passenger} of a vehicle that was {struck/rear-ended on the front driver's side - text box}"
 
-# Clinical Summary
+## Clinical Summary
 
-## Treatment Codes
+### Treatment Codes
 
 Text needed: "The provider is requesting {CPT Code} - {CPT Code Name},
 {CPT Code} - {CPT Code Name}, {CPT Code} - {CPT Code Name}, and
@@ -50,7 +52,7 @@ Clicking each button will add this text to a list that will be in the form of a 
 
 "The provider is requesting x, y, and z, at a frequency of (frequency) visits per week for (duration) weeks for the period of (from date) through (to date)."
 
-## Auxillary Codes
+### Auxillary Codes
 
 There will then be a second list of codes:
 
@@ -69,7 +71,7 @@ Each of these codes will have a text field next to it specifying the number of u
 
 The text box will then generate the sentence “Additionally, the provider is requesting x, y, and z for the same time period.” If the number of units for the code is blank, it will not specify a number of units, otherwise, it will generate the sentence as “Additionally, the provider is requesting x (q units), y and z for the same time period”.
 
-## Request/Approval Details
+### Request/Approval Details
 
 There are three checkboxes: {PT, chiropractic, acupuncture}
 
