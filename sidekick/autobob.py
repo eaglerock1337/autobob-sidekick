@@ -11,7 +11,13 @@ from .codes import (
     AUXILLARY_CODES,
 )
 from .fields import BELT, ROLE, SEAT
-from .layouts import GUI_THEME, ACCIDENT_INFO_LAYOUT, OUTPUT_LAYOUT
+from .layouts import (
+    GUI_THEME,
+    ACCIDENT_INFO_LAYOUT,
+    TREATMENT_DATE_LAYOUT,
+    CLIENT_SUMMARY_FOOTER,
+    OUTPUT_LAYOUT,
+)
 
 
 # Set gui theme
@@ -72,43 +78,11 @@ class AutoBob:
                 )
             layout.append(row)
 
-        # This will be turned into a for loop with the data getting processed
-        layout += [
-            [
-                sg.Text("Frequency", size=(9, 1)),
-                sg.InputText(key="-CSUM-FREQ-", size=(4, 1)),
-                sg.Text("", size=(1, 1)),
-                sg.Text("Duration", size=(8, 1)),
-                sg.InputText(key="-CSUM-DUR-", size=(4, 1)),
-                sg.Text("", size=(1, 1)),
-                sg.Text("From Date", size=(9, 1)),
-                sg.InputText(key="-CSUM-FDATE-", size=(10, 1)),
-                sg.CalendarButton(
-                    "Calendar",
-                    close_when_date_chosen=True,
-                    target="-CSUM-FDATE-",
-                    no_titlebar=False,
-                    format="%m/%d/%Y",
-                ),
-                sg.Text("", size=(1, 1)),
-                sg.Text("To Date", size=(7, 1)),
-                sg.InputText(key="-CSUM-TDATE-", size=(10, 1)),
-                sg.CalendarButton(
-                    "Calendar",
-                    close_when_date_chosen=True,
-                    target="-CSUM-TDATE-",
-                    no_titlebar=False,
-                    format="%m/%d/%Y",
-                ),
-            ]
-        ]
-
-        layout += [
+        layout += TREATMENT_DATE_LAYOUT + [
             [sg.HorizontalSeparator()],
             [sg.Text("Accessory Codes", font=("Helvetica", 14, "bold"))],
         ]
 
-        # Format auxillary code section
         for code_row in AUXILLARY_CODE_DISPLAY_LAYOUT:
             row = []
             for not_first, code in enumerate(code_row):
@@ -133,16 +107,7 @@ class AutoBob:
             [sg.Text("Request/Approval Details", font=("Helvetica", 14, "bold"))],
         ]
 
-        # Format request/approval section
-        layout += [
-            [
-                sg.Text("Body parts to treat:"),
-                sg.InputText(key="-CSUM-BPARTS-", size=(64, 1)),
-                sg.Button("Generate", key="-CSUM-GEN-"),
-                sg.Button("Reset", key="-CSUM-RESET-"),
-            ],
-            [sg.Text("", size=(40, 1)), sg.Text("", key="-CSUM-DIALOG-", size=(60, 1))],
-        ]
+        layout += CLIENT_SUMMARY_FOOTER
 
         return layout
 
@@ -252,7 +217,7 @@ class AutoBob:
         all fields are filled out as expected.
         """
 
-        # Error handling
+        # Assign values and perform initial error handling
         frequency = values["-CSUM-FREQ-"]
         duration = values["-CSUM-DUR-"]
         from_date = values["-CSUM-FDATE-"]
@@ -274,21 +239,21 @@ class AutoBob:
             self.window.Element("-CSUM-DIALOG-").Update(value=dialog)
             return
 
-        # Process treatment code text
+        # Parse checked treatment codes
         checked_treatement_codes = []
         for code in TREATMENT_CODE_PRINT_LAYOUT:
             if values[f"-{code}-"]:
                 checked_treatement_codes.append(code)
 
+        # Verify at least one code is checked
         num_of_codes = len(checked_treatement_codes)
-
         if num_of_codes == 0:
             dialog = "Error: no treatment codes were selected!"
             self.window.Element("-CSUM-DIALOG-").Update(value=dialog)
             return
 
+        # Process treatment code text
         treatment_code_text = ""
-
         for count, code in enumerate(checked_treatement_codes):
             if count != 0:
                 if num_of_codes > 2:
@@ -348,7 +313,7 @@ class AutoBob:
             + f"treatment are {body_parts}"
         )
 
-        # Display text
+        # Display text and copy to clipboard
         dialog = (
             "Clinical summary text generated, copied to clipboard, and displayed below."
         )
