@@ -48,7 +48,13 @@ class AutoBob:
         clinical_summary_layout = self._gen_clinical_summary_layout()
         column_layout = ACCIDENT_INFO_LAYOUT + clinical_summary_layout + OUTPUT_LAYOUT
         layout = [[sg.Column(column_layout, scrollable=True, expand_y=True)]]
-        self.window = sg.Window("AutoBob SideKick", layout, font=("Helvetica", 14), resizable=True)
+        self.window = sg.Window(
+            "AutoBob SideKick",
+            layout,
+            font=("Helvetica", 14),
+            resizable=True,
+            size=(1100, 850),
+        )
 
     def _gen_clinical_summary_layout(self):
         """
@@ -69,7 +75,7 @@ class AutoBob:
                 row.append(
                     sg.Checkbox(
                         code,
-                        size=(6, 1),
+                        size=(7, 1),
                         key=f"-{code}-",
                         font=("Helvetica", 14, "bold"),
                     )
@@ -92,7 +98,7 @@ class AutoBob:
                 row.append(
                     sg.Checkbox(
                         code,
-                        size=(6, 1),
+                        size=(7, 1),
                         key=f"-{code}-",
                         font=("Helvetica", 14, "bold"),
                     )
@@ -266,14 +272,19 @@ class AutoBob:
 
             treatment_code_text += f"{code} - {TREATMENT_CODES[code]}"
 
-        if int(duration) == 1:
-            plural = "s"
+        if int(frequency) == 1:
+            f_plural = ""
         else:
-            plural = ""
+            f_plural = "s"
+
+        if int(duration) == 1:
+            d_plural = ""
+        else:
+            d_plural = "s"
 
         statement = (
             f"The provider is requesting {treatment_code_text} at a frequency "
-            + f"of {frequency} visits per week for {duration} week{plural} "
+            + f"of {frequency} visit{f_plural} per week for {duration} week{d_plural} "
             + f"for the period of {from_date} through {to_date}."
         )
 
