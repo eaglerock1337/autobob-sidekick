@@ -75,7 +75,7 @@ class AutoBob:
                 row.append(
                     sg.Checkbox(
                         code,
-                        size=(7, 1),
+                        size=(8, 1),
                         key=f"-{code}-",
                         font=("Helvetica", 14, "bold"),
                     )
@@ -98,7 +98,7 @@ class AutoBob:
                 row.append(
                     sg.Checkbox(
                         code,
-                        size=(7, 1),
+                        size=(8, 1),
                         key=f"-{code}-",
                         font=("Helvetica", 14, "bold"),
                     )
