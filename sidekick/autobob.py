@@ -337,6 +337,22 @@ class AutoBob:
             self.window.Element("-CSUM-DIALOG-").Update(value=dialog)
             return
 
+        # Parse and validate treatment types
+        selected_treatments = []
+        for treatment in TREATMENT_TYPE_LAYOUT:
+            if values[f"-{treatment}-UNITS-"] or values[f"-{treatment}-DENY-"]:
+                selected_treatments.append(treatment)
+            elif values[f"{treatment}-FDATE-"] or values[f"-{treatment}-TDATE-"]:
+                # Validate all invalid forms of dates and stuff here
+                pass
+
+        # Verify at least one treatment type is selected
+        num_of_treatments = len(selected_treatments)
+        if num_of_treatments == 0:
+            dialog = "Error: no treatment types were specified!"
+            self.window.Element("-CSUM-DIALOG-").Update(value=dialog)
+            return
+
         # Clear dialogs since function has passed error handling
         self._clear_dialogs()
 
@@ -396,6 +412,35 @@ class AutoBob:
                 f" Additionally, the provider is requesting {auxillary_code_text} "
                 + f"for the same time period."
             )
+
+        # Process treatment type text
+        treatments = ""
+        for count, treatment in enumerate(selected_treatments):
+            if count != 0:
+                if num_of_treatments > 2:
+                    treatments += ","
+                treatments += " "
+
+            if count == num_of_treatments - 1 and count > 0:
+                treatments += "and "
+
+            if values[f"-{treatment}-DENY-"]:
+                units = 0
+            else:
+                units = values[f"-{treatment}-UNITS-"
+
+            if int(units) == 1:
+                plural = ""
+            else:
+                plural = "s"
+
+            # Time period logic goes here
+
+            treatments += f"{units} {TREATMENT_TYPES[treatment]} unit{plural} {time_period}"
+
+        statement += (
+            f" It is noted that the claimant has been approved for {treatments}."
+        )
 
         # Process final sentence
         if not body_parts.endswith("."):
