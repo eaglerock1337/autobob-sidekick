@@ -46,8 +46,9 @@ class AutoBob:
         to provide easy access of all events and values by member functions.
         """
         clinical_summary_layout = self._gen_clinical_summary_layout()
-        layout = ACCIDENT_INFO_LAYOUT + clinical_summary_layout + OUTPUT_LAYOUT
-        self.window = sg.Window("AutoBob SideKick", layout, font=("Helvetica", 14))
+        column_layout = ACCIDENT_INFO_LAYOUT + clinical_summary_layout + OUTPUT_LAYOUT
+        layout = [[sg.Column(column_layout, scrollable=True, expand_y=True)]]
+        self.window = sg.Window("AutoBob SideKick", layout, font=("Helvetica", 14), resizable=True)
 
     def _gen_clinical_summary_layout(self):
         """
