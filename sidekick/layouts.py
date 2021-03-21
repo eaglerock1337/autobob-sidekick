@@ -98,7 +98,7 @@ CLIENT_SUMMARY_FOOTER = [
 
 
 OUTPUT_LAYOUT = [
-    [sg.Text("Clipboard Output and Test Space", font=("Helvetica", 18, "bold"))],
+    # [sg.Text("Clipboard Output and Test Space", font=("Helvetica", 18, "bold"))],
     [sg.Multiline(key="-OUTPUT-", size=(100, 5))],
     [
         sg.Text("", size=(80, 1)),

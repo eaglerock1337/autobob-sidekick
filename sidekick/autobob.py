@@ -349,6 +349,7 @@ class AutoBob:
         self.window.Element("-CSUM-DUR-").Update(value="")
         self.window.Element("-CSUM-FDATE-").Update(value="")
         self.window.Element("-CSUM-TDATE-").Update(value="")
+        self.window.Element("-CSUM-BPARTS-").Update(value="")
 
         for code in AUXILLARY_CODE_PRINT_LAYOUT:
             self.window.Element(f"-{code}-").Update(value=False)
