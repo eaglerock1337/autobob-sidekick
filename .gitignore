@@ -1,4 +1,5 @@
-# Ignore vscode settings
+# AutoBob SideKick specific ignores
+autobob
 .vscode
 
 # Byte-compiled / optimized / DLL files
