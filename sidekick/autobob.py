@@ -309,11 +309,6 @@ class AutoBob:
         to_date = values["-CSUM-TDATE-"]
         body_parts = values["-CSUM-BPARTS-"]
 
-        if not frequency.isdigit() or not duration.isdigit():
-            dialog = "Error: invalid treatment code frequency or duration!"
-            self.window.Element("-CSUM-DIALOG-").Update(value=dialog)
-            return
-
         if not self._is_valid_date(from_date) or not self._is_valid_date(to_date):
             dialog = "Error: invalid treatment code from or to date!"
             self.window.Element("-CSUM-DIALOG-").Update(value=dialog)
@@ -330,10 +325,22 @@ class AutoBob:
             if values[f"-{code}-"]:
                 checked_treatement_codes.append(code)
 
+        # Process auxillary code text if necessary
+        checked_auxillary_codes = []
+        for code in AUXILLARY_CODE_PRINT_LAYOUT:
+            if values[f"-{code}-"]:
+                checked_auxillary_codes.append(code)
+
         # Verify at least one code is checked
         num_of_codes = len(checked_treatement_codes)
-        if num_of_codes == 0:
+        num_of_aux_codes = len(checked_auxillary_codes)
+        if num_of_codes == 0 and num_of_aux_codes == 0:
             dialog = "Error: no treatment codes were selected!"
+            self.window.Element("-CSUM-DIALOG-").Update(value=dialog)
+            return
+
+        if num_of_codes > 0 and (not frequency.isdigit() or not duration.isdigit()):
+            dialog = "Error: invalid treatment code frequency or duration!"
             self.window.Element("-CSUM-DIALOG-").Update(value=dialog)
             return
 
@@ -381,41 +388,35 @@ class AutoBob:
         self._clear_dialogs()
 
         # Process treatment code text
-        treatment_code_text = ""
-        for count, code in enumerate(checked_treatement_codes):
-            if count != 0:
-                if num_of_codes > 2:
-                    treatment_code_text += ","
-                treatment_code_text += " "
+        if num_of_codes > 0:
+            treatment_code_text = ""
+            for count, code in enumerate(checked_treatement_codes):
+                if count != 0:
+                    if num_of_codes > 2:
+                        treatment_code_text += ","
+                    treatment_code_text += " "
 
-            if count == num_of_codes - 1 and count > 0:
-                treatment_code_text += "and "
+                if count == num_of_codes - 1 and count > 0:
+                    treatment_code_text += "and "
 
-            treatment_code_text += f"{code} - {TREATMENT_CODES[code]}"
+                treatment_code_text += f"{code} - {TREATMENT_CODES[code]}"
 
-        if int(frequency) == 1:
-            f_plural = ""
-        else:
-            f_plural = "s"
+            if int(frequency) == 1:
+                f_plural = ""
+            else:
+                f_plural = "s"
 
-        if int(duration) == 1:
-            d_plural = ""
-        else:
-            d_plural = "s"
+            if int(duration) == 1:
+                d_plural = ""
+            else:
+                d_plural = "s"
 
-        statement = (
-            f"The provider is requesting {treatment_code_text} at a frequency "
-            + f"of {frequency} visit{f_plural} per week for {duration} week{d_plural} "
-            + f"for the period of {from_date} through {to_date}."
-        )
+            statement = (
+                f"The provider is requesting {treatment_code_text} at a frequency "
+                + f"of {frequency} visit{f_plural} per week for {duration} week{d_plural} "
+                + f"for the period of {from_date} through {to_date}."
+            )
 
-        # Process auxillary code text if necessary
-        checked_auxillary_codes = []
-        for code in AUXILLARY_CODE_PRINT_LAYOUT:
-            if values[f"-{code}-"]:
-                checked_auxillary_codes.append(code)
-
-        num_of_aux_codes = len(checked_auxillary_codes)
         if num_of_aux_codes > 0:
             auxillary_code_text = ""
             for count, code in enumerate(checked_auxillary_codes):
@@ -432,10 +433,17 @@ class AutoBob:
                 if values[f"-{code}-UNITS-"]:
                     auxillary_code_text += f" ({values[f'-{code}-UNITS-']} units)"
 
-            statement += (
-                f" Additionally, the provider is requesting {auxillary_code_text} "
-                + f"for the same time period."
-            )
+            if num_of_codes == 0:
+                statement = (
+                    f"The provider is requesting {auxillary_code_text} "
+                    + f"for the period of {from_date} through {to_date}."
+                )
+
+            else:
+                statement += (
+                    f" Additionally, the provider is requesting {auxillary_code_text} "
+                    + f"for the same time period."
+                )
 
         # Process treatment type text
         num_of_treatments = len(selected_treatments)
