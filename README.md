@@ -6,7 +6,7 @@ An automation tool for annoying Dr. Bobberts text formatting!
 
 Using this tool requires the following:
 
-- Python 3.8 or later installed on your system
+- Python 3.6 or later installed on your system
 - `pip` (`pip3`) for installing Python modules
 - access to a shell for using the makefile or installer
 
