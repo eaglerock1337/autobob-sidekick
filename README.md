@@ -14,11 +14,11 @@ Using this tool requires the following:
 
 - clone this repo to your filesystem
 - open a shell to this directory
-- run `python3 setup.py`
+- run `make` if you have it installed, otherwise run `setup.sh`
 - the script will set up the necessary dependencies and use `pyinstaller` to bundle the application
-- the `autobob` application will be deployed to the `dist` directory
+- the `autobob` application will be copied to the current directory
 
-You can copy the `dist/autobob` executable wherever is most convenient for your use. Simply run `autobob` from the shell or the GUI and enjoy!
+You can copy the `autobob` executable wherever is most convenient for your use. Simply run `autobob` from the shell or the GUI and enjoy!
 
 ## development
 
@@ -26,20 +26,25 @@ You can copy the `dist/autobob` executable wherever is most convenient for your 
 - run `pipenv install --dev` to set up the development environment.
 - run `pipenv shell` to instanciate a shell inside the virtual environment for the application.
 - you can run `python autobob.py` to run the command inside the virtualenv.
-- to compile the application, run `pyinstaller --onefile --noconsole autobob.py` to compile the executable.
+- you can alternatively run `pipenv run python autobob.py` outside of the virtualenv.
+- to compile the application, run `make compile` to compile the executable.
 - to specify an icon, add `--icon /path/to/icon/file` to the `pyinstaller` command.
-- to run tests, run `this-command`.
+- to run tests, run `make test`.
 - to run the code linter, run `black .` and the code will automatically be formatted to Python code conventions.
+- to test `pyinstaller`, `make`, or `setup.sh` in a container, use `make docker` to set up a docker container.
 
 ## program layout
 
 The following files make up the application and its data:
 
 - `autobob.py` - Main program that uses the `sidekick` module
+- `Makefile` - Make tools for running and compiling the application
+- `setup.sh` - A setup script for systems without `make` installed
 - `sidekick/autobob.py` - `AutoBob()` class and its member functions
 - `sidekick/codes.py` - Lists and dicts for treatment and auxillary codes
 - `sidekick/fields.py` - Fields and output text for specific fields
 - `sidekick/layouts.py` - Layout nested lists for PySimpleGUI window formatting
+- `Dockerfile` - A Docker image for testing the `pyinstaller` and setup commands
 
 The other files and directories are as follows:
 
