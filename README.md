@@ -27,6 +27,7 @@ You can copy the `dist/autobob` executable wherever is most convenient for your 
 - run `pipenv shell` to instanciate a shell inside the virtual environment for the application.
 - you can run `python autobob.py` to run the command inside the virtualenv.
 - to compile the application, run `pyinstaller --onefile --noconsole autobob.py` to compile the executable.
+- to specify an icon, add `--icon /path/to/icon/file` to the `pyinstaller` command.
 - to run tests, run `this-command`.
 - to run the code linter, run `black .` and the code will automatically be formatted to Python code conventions.
 
