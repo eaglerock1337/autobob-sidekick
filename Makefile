@@ -10,6 +10,7 @@ compile:
 
 copy:
 	cp dist/autobob .
+	@echo "autobob executable copied to current directory!"
 
 docker:
 	docker build --tag autobob .
