@@ -8,14 +8,14 @@ Using this tool requires the following:
 
 - Python 3.8 or later installed on your system
 - `pip` (`pip3`) for installing Python modules
-- access to a shell for running the installer
+- access to a shell for using the makefile or installer
 
 ## installation
 
 - clone this repo to your filesystem
 - open a shell to this directory
 - run `make` if you have it installed, otherwise run `setup.sh`
-- the script will set up the necessary dependencies and use `pyinstaller` to bundle the application
+- the makefile/script will set up the necessary dependencies and use `pyinstaller` to bundle the application
 - the `autobob` application will be copied to the current directory
 
 You can copy the `autobob` executable wherever is most convenient for your use. Simply run `autobob` from the shell or the GUI and enjoy!

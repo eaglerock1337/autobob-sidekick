@@ -2,10 +2,12 @@ all: setup compile copy
 	@echo "Building AutoBob SideKick..."
 
 setup:
+	@echo "Setting up environment..."
 	pip install pipenv
 	pipenv install
 
 compile:
+	@echo "Compiling application with pyinstaller..."
 	pipenv run pyinstaller --noconsole --onefile autobob.py
 
 copy:
