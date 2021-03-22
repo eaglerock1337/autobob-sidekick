@@ -340,18 +340,42 @@ class AutoBob:
         # Parse and validate treatment types
         selected_treatments = []
         for treatment in TREATMENT_TYPE_LAYOUT:
-            if values[f"-{treatment}-UNITS-"] or values[f"-{treatment}-DENY-"]:
-                selected_treatments.append(treatment)
-            elif values[f"{treatment}-FDATE-"] or values[f"-{treatment}-TDATE-"]:
-                # Validate all invalid forms of dates and stuff here
-                pass
+            units = values[f"-{treatment}-UNITS-"]
+            treatment_from = values[f"-{treatment}-FDATE-"]
+            treatment_to = values[f"-{treatment}-TDATE-"]
+            not_approved = values[f"-{treatment}-DENY-"]
+            treatment_text = TREATMENT_TYPES[treatment].lower()
 
-        # Verify at least one treatment type is selected
-        num_of_treatments = len(selected_treatments)
-        if num_of_treatments == 0:
-            dialog = "Error: no treatment types were specified!"
-            self.window.Element("-CSUM-DIALOG-").Update(value=dialog)
-            return
+            if units:
+                if not units.isdigit():
+                    dialog = f"Error: invalid {treatment_text} frequency!"
+                    self.window.Element("-CSUM-DIALOG-").Update(value=dialog)
+                    return
+                selected_treatments.append(treatment)
+
+                if treatment_from:
+                    if not self._is_valid_date(treatment_from):
+                        dialog = f"Error: invalid {treatment_text} from date!"
+                        self.window.Element("-CSUM-DIALOG-").Update(value=dialog)
+                        return
+
+                    if not treatment_to:
+                        dialog = f"Error: {treatment_text} from date specified without to date!"
+                        self.window.Element("-CSUM-DIALOG-").Update(value=dialog)
+                        return
+
+                if treatment_to and not self._is_valid_date(treatment_to):
+                    dialog = f"Error: invalid {treatment_text} to date!"
+                    self.window.Element("-CSUM-DIALOG-").Update(value=dialog)
+                    return
+
+            elif not_approved:
+                selected_treatments.append(treatment)
+
+            elif treatment_from or treatment_to:
+                dialog = f"Error: {treatment_text} dates specified without units!"
+                self.window.Element("-CSUM-DIALOG-").Update(value=dialog)
+                return
 
         # Clear dialogs since function has passed error handling
         self._clear_dialogs()
@@ -414,33 +438,45 @@ class AutoBob:
             )
 
         # Process treatment type text
-        treatments = ""
-        for count, treatment in enumerate(selected_treatments):
-            if count != 0:
-                if num_of_treatments > 2:
-                    treatments += ","
-                treatments += " "
+        num_of_treatments = len(selected_treatments)
+        if num_of_treatments > 0:
+            treatments = ""
+            for count, treatment in enumerate(selected_treatments):
+                if count != 0:
+                    if num_of_treatments > 2:
+                        treatments += ","
+                    treatments += " "
 
-            if count == num_of_treatments - 1 and count > 0:
-                treatments += "and "
+                if count == num_of_treatments - 1 and count > 0:
+                    treatments += "and "
 
-            if values[f"-{treatment}-DENY-"]:
-                units = 0
-            else:
-                units = values[f"-{treatment}-UNITS-"
+                if values[f"-{treatment}-DENY-"]:
+                    units = 0
+                else:
+                    units = values[f"-{treatment}-UNITS-"]
 
-            if int(units) == 1:
-                plural = ""
-            else:
-                plural = "s"
+                if int(units) == 1:
+                    plural = ""
+                else:
+                    plural = "s"
 
-            # Time period logic goes here
+                from_date = values[f"-{treatment}-FDATE-"]
+                to_date = values[f"-{treatment}-TDATE-"]
 
-            treatments += f"{units} {TREATMENT_TYPES[treatment]} unit{plural} {time_period}"
+                if from_date and to_date:
+                    time_period =  f"from {from_date} to {to_date}"
+                elif to_date:
+                    time_period = f"through {to_date}"
+                else:
+                    time_period = "to date"
 
-        statement += (
-            f" It is noted that the claimant has been approved for {treatments}."
-        )
+                treatments += (
+                    f"{units} {TREATMENT_TYPES[treatment]} unit{plural} {time_period}"
+                )
+
+            statement += (
+                f" It is noted that the claimant has been approved for {treatments}."
+            )
 
         # Process final sentence
         if not body_parts.endswith("."):
