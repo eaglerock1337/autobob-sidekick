@@ -503,36 +503,6 @@ class AutoBob:
         self.window.Element("-OUTPUT-").Update(value=statement)
         pyperclip.copy(statement)
 
-    """
-    Three rows: PT, Chiropractic, Acupuncture
-
-    Each row:
-
-    - Text box for number of units (check for integer)
-    - From date (check for date)
-    - To date (check for date)
-
-    For each row:
-
-    - If number of units is nonzero, and both dates are blank:
-    - "It is noted that the claimant has been approved for `units` `type` visits to date.
-
-    - If to date is filled but from date is blank:
-    - "It is noted that the claimant has been approved for `units` `type` visits through `to date`.
-
-    - If both dates are filled out:
-    - "It is noted that the claimant has been approved for `units` `type` visits from `from date` to `to date`.
-
-    - If more than one treatment is filled in above:
-    - "It is noted that the claimant has been approved for `x chiropractic visits <date stuff>` and `y acupuncture visits to date`.
-
-    Contingency for initial requests and denied:
-
-    - Each row gets a `not approved` checkbox
-    - Would gray out the row
-    - Changes wording to "It is noted that the claimant has been approved for `0` `type` visits to date.
-    """
-
     def _handle_treatment_type(self, treatment_type, disabled=False):
         """
         Handle the enabling or disabling of the treatment type.
