@@ -11,6 +11,7 @@ pytest = "*"
 pysimplegui = "*"
 pyperclip = "*"
 pyinstaller = "*"
+macholib = "*"
 
 [requires]
 python_version = "3"
