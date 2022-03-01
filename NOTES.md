@@ -104,3 +104,25 @@ Contingency for initial requests and denied:
 ### Final Sentence
 
 "It is noted that the body parts being requested for treatment are {text field}"
+
+## New Idea
+
+- On the top - Date field for date of Accident
+  - Based upon this, automatically calculate how long it's been since the accident's FROM date in half-month intervals
+  - e.g. Accident, 3/1/22, First treatment date - 3/22/22
+  - Whole months +
+    - < 1 week: "More than X months"
+    - 1-2 weeks: "Nearly X 1/2 months"
+    - 2-3 weeks: "More than X 1/2 months"
+    - more: "Nearly X+1 months"
+    - "It has been {interval} since the accident."
+  - All he wants is a date picker and a display that says that text
+- Depending on the TREATMENT codes are selected, certain sentences to get generated:
+  - If 9894x codes, generate the sentence:
+    - "The submitted documentation does not substantiate that chiropractic treatment is medically necessary with respect to the motor vehicle accident of {date of accident}."
+  - If 97112, generate the sentence:
+    - "The submitted documentation does not substantiate that neuromuscular re-education is medically necessary with respect to the motor vehicle accident of {date of accident}."
+  - If 99072, generate the sentence:
+    - "The submitted documentation does not substantiate that the service is medically necessary with respect to the motor vehicle accident of {date of accident}."
+  - If any of the other treatment codes:
+    - "The submitted documentation does not substantiate that therapy is medically necessary with respect to the motor vehicle accident of {date of accident}."

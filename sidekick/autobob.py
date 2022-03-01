@@ -78,7 +78,7 @@ class AutoBob:
                     sg.Checkbox(
                         code,
                         size=(8, 1),
-                        key=f"-{code}-",
+                        key=f"-TC-{code}-",
                         font=("Helvetica", 14, "bold"),
                     )
                 )
@@ -104,14 +104,14 @@ class AutoBob:
                     sg.Checkbox(
                         code,
                         size=(8, 1),
-                        key=f"-{code}-",
+                        key=f"-AC-{code}-",
                         font=("Helvetica", 14, "bold"),
                     )
                 )
                 row.append(
                     sg.Text(AUXILLARY_CODES[code], size=(35, 1), font=("Helvetica", 12))
                 )
-                row.append(sg.InputText(key=f"-{code}-UNITS-", size=(2, 1)))
+                row.append(sg.InputText(key=f"-AC-{code}-UNITS-", size=(2, 1)))
             aux_layout.append(row)
 
         return aux_layout
@@ -322,13 +322,13 @@ class AutoBob:
         # Parse checked treatment codes
         checked_treatement_codes = []
         for code in TREATMENT_CODE_PRINT_LAYOUT:
-            if values[f"-{code}-"]:
+            if values[f"-TC-{code}-"]:
                 checked_treatement_codes.append(code)
 
         # Process auxillary code text if necessary
         checked_auxillary_codes = []
         for code in AUXILLARY_CODE_PRINT_LAYOUT:
-            if values[f"-{code}-"]:
+            if values[f"-AC-{code}-"]:
                 checked_auxillary_codes.append(code)
 
         # Verify at least one code is checked
@@ -430,8 +430,8 @@ class AutoBob:
 
                 auxillary_code_text += f"{code} - {AUXILLARY_CODES[code]}"
 
-                if values[f"-{code}-UNITS-"]:
-                    auxillary_code_text += f" ({values[f'-{code}-UNITS-']} units)"
+                if values[f"-AC-{code}-UNITS-"]:
+                    auxillary_code_text += f" ({values[f'-AC-{code}-UNITS-']} units)"
 
             if num_of_codes == 0:
                 statement = (

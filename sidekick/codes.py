@@ -9,6 +9,7 @@ TREATMENT_CODE_DISPLAY_LAYOUT = [
     ["97014", "97035", "97530"],
     ["G0283", "97039", "99072"],
     ["98960", "97024", "90901"],
+    ["S9090"]
 ]
 
 TREATMENT_CODE_PRINT_LAYOUT = [
@@ -39,6 +40,7 @@ TREATMENT_CODE_PRINT_LAYOUT = [
     "98960",
     "97024",
     "90901",
+    "S9090",
 ]
 
 TREATMENT_CODES = {
@@ -69,40 +71,61 @@ TREATMENT_CODES = {
     "98960": "Education & Training Self-Mgmt",
     "97024": "Diathermy",
     "90901": "Biofeedback Training",
+    "S9090": "VAX Decompression",
 }
 
 
 # List and dicts for auxillary codes
 AUXILLARY_CODE_DISPLAY_LAYOUT = [
-    ["95999", "72146"],
-    ["97535", "72148"],
-    ["97750", "72195"],
-    ["70336", "73221"],
-    ["72141", "73723"],
+    ["95999", "70336"],
+    ["97535", "72141"],
+    ["97750", "72146"],
+    ["97110", "72148"],
+    ["A4556", "72195"],
+    ["A9150", "73221"],
+    ["E0190", "73721"],
+    ["L0631", "70551"],
+    ["E0855", "A4595"],
 ]
 
 AUXILLARY_CODE_PRINT_LAYOUT = [
     "95999",
     "97535",
     "97750",
+    "97110",
+    "A4556",
+    "A9150",
+    "E0190",
+    "L0631",
+    "E0855",
     "70336",
     "72141",
     "72146",
     "72148",
     "72195",
     "73221",
-    "73723",
+    "73721",
+    "70551",
+    "A4595",
 ]
 
 AUXILLARY_CODES = {
     "95999": "PF-NCS testing",
     "97535": "Self Care/Home Management Training",
     "97750": "Physical Performance Test",
+    "97110": "Therapeutic Exercise",
+    "A4556": "Electrodes",
+    "A9150": "Non-Prescription Drug",
+    "E0190": "Positioning Pillow",
+    "L0631": "LSO Brace",
+    "E0855": "Cervical Traction Equipment",
     "70336": "MRI TMJ without contrast",
     "72141": "MRI cervical spine without contrast",
     "72146": "MRI thoracic spine without contrast",
     "72148": "MRI lumbar spine without contrast",
     "72195": "MRI pelvis without contrast",
     "73221": "MRI upper extremity joint without contrast",
-    "73723": "MRI lower extremity joint without contrast",
+    "73721": "MRI lower extremity joint without contrast",
+    "70551": "MRI brain without contrast",
+    "A4595": "Electrical Stimulator Leads",
 }
