@@ -8,6 +8,7 @@ TREATMENT_CODE_DISPLAY_LAYOUT = [
     ["97012", "97033", "97140"],
     ["97014", "97035", "97530"],
     ["G0283", "97039", "99072"],
+    ["98960", "97024", "90901"],
 ]
 
 TREATMENT_CODE_PRINT_LAYOUT = [
@@ -35,6 +36,9 @@ TREATMENT_CODE_PRINT_LAYOUT = [
     "97140",
     "97530",
     "99072",
+    "98960",
+    "97024",
+    "90901",
 ]
 
 TREATMENT_CODES = {
@@ -46,7 +50,7 @@ TREATMENT_CODES = {
     "97012": "Mechanical Traction",
     "97014": "Electrical Stimulation",
     "G0283": "Electrical Stimulation",
-    "97016": "Diathermy",
+    "97016": "Vasopneumatic Devices",
     "97018": "Paraffin Bath",
     "97022": "Whirlpool Therapy",
     "97026": "Infrared",
@@ -62,6 +66,9 @@ TREATMENT_CODES = {
     "97140": "Manual Therapy",
     "97530": "Therapeutic Activities",
     "99072": "Additional Supplies/Staff Time",
+    "98960": "Education & Training Self-Mgmt",
+    "97024": "Diathermy",
+    "90901": "Biofeedback Training",
 }
 
 
