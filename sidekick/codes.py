@@ -9,7 +9,7 @@ TREATMENT_CODE_DISPLAY_LAYOUT = [
     ["97014", "97035", "97530"],
     ["G0283", "97039", "99072"],
     ["98960", "97024", "90901"],
-    ["S9090"]
+    ["S9090"],
 ]
 
 TREATMENT_CODE_PRINT_LAYOUT = [

@@ -472,7 +472,7 @@ class AutoBob:
                 to_date = values[f"-{treatment}-TDATE-"]
 
                 if from_date and to_date:
-                    time_period =  f"from {from_date} to {to_date}"
+                    time_period = f"from {from_date} to {to_date}"
                 elif to_date:
                     time_period = f"through {to_date}"
                 else:
