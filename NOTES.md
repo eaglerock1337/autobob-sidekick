@@ -126,3 +126,10 @@ Contingency for initial requests and denied:
     - "The submitted documentation does not substantiate that the service is medically necessary with respect to the motor vehicle accident of {date of accident}."
   - If any of the other treatment codes:
     - "The submitted documentation does not substantiate that therapy is medically necessary with respect to the motor vehicle accident of {date of accident}."
+
+### My Own Ideas
+
+- Create a tabbing interface at the top to create multiple sections for different tasks
+- Create a spiffy header with a lulzy picture of Rob as an easter egg
+- See if I can do a stupid animation on the picture too
+- See if I can speed up the start time by parallelizing the loading tasks
