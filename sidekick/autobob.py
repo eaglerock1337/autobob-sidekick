@@ -78,7 +78,7 @@ class AutoBob:
                     sg.Checkbox(
                         code,
                         size=(8, 1),
-                        key=f"-TC-{code}-",
+                        key=f"-T{code}-",
                         font=("Helvetica", 14, "bold"),
                     )
                 )
@@ -104,14 +104,14 @@ class AutoBob:
                     sg.Checkbox(
                         code,
                         size=(8, 1),
-                        key=f"-AC-{code}-",
+                        key=f"-A{code}-",
                         font=("Helvetica", 14, "bold"),
                     )
                 )
                 row.append(
                     sg.Text(AUXILLARY_CODES[code], size=(35, 1), font=("Helvetica", 12))
                 )
-                row.append(sg.InputText(key=f"-AC-{code}-UNITS-", size=(2, 1)))
+                row.append(sg.InputText(key=f"-A{code}-UNITS-", size=(2, 1)))
             aux_layout.append(row)
 
         return aux_layout
@@ -518,7 +518,7 @@ class AutoBob:
         Reset all fields under the clinical summary section back to defaults.
         """
         for code in TREATMENT_CODE_PRINT_LAYOUT:
-            self.window.Element(f"-{code}-").Update(value=False)
+            self.window.Element(f"-T{code}-").Update(value=False)
 
         self.window.Element("-CSUM-FREQ-").Update(value="")
         self.window.Element("-CSUM-DUR-").Update(value="")
@@ -527,8 +527,8 @@ class AutoBob:
         self.window.Element("-CSUM-BPARTS-").Update(value="")
 
         for code in AUXILLARY_CODE_PRINT_LAYOUT:
-            self.window.Element(f"-{code}-").Update(value=False)
-            self.window.Element(f"-{code}-UNITS-").Update(value="")
+            self.window.Element(f"-A{code}-").Update(value=False)
+            self.window.Element(f"-A{code}-UNITS-").Update(value="")
 
         for treatment_type in TREATMENT_TYPE_LAYOUT:
             self.window.Element(f"-{treatment_type}-UNITS-").Update(
